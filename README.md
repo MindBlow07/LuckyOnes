@@ -1,4 +1,5 @@
-# LuckyOnes
+# LuckyOnes - E2EE Chat Application
+
 A Python-based end-to-end encrypted chat application with cyberpunk styling and automatic message deletion.
 
 ## Features
@@ -88,3 +89,14 @@ To run in development mode:
 1. Start the server in one terminal
 2. Start multiple clients in different terminals to test multi-user functionality
 3. Test thread creation, image sharing, and auto-deletion features
+
+## Security Considerations
+
+- This is a demonstration application
+- For production use, additional security measures would be needed
+- Tor integration is basic and would need enhancement for real anonymity
+- Consider additional authentication and authorization mechanisms
+
+## License
+
+This project is for educational and demonstration purposes.
