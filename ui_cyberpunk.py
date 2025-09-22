@@ -5,32 +5,25 @@ Purple, black, and gray color scheme with modern styling.
 
 import tkinter as tk
 from tkinter import ttk, messagebox, filedialog
-import threading
-import time
-from datetime import datetime, timedelta
-from typing import Dict, List, Optional, Callable
+from datetime import datetime
+from typing import Callable
 from PIL import Image, ImageTk
-import io
-import base64
+import io, base64
 
 
 class CyberpunkStyle:
-    """Cyberpunk color scheme and styling."""
-    
-    # Colors
-    PRIMARY = "#8B5CF6"      # Purple
-    SECONDARY = "#A78BFA"    # Light purple
-    BACKGROUND = "#0F0F0F"   # Dark black
-    SURFACE = "#1A1A1A"      # Dark gray
-    SURFACE_LIGHT = "#2D2D2D" # Medium gray
-    TEXT_PRIMARY = "#FFFFFF"  # White
-    TEXT_SECONDARY = "#9CA3AF" # Gray
-    ACCENT = "#EC4899"       # Pink
-    SUCCESS = "#10B981"      # Green
-    WARNING = "#F59E0B"      # Orange
-    ERROR = "#EF4444"        # Red
-    
-    # Fonts
+    PRIMARY = "#8B5CF6"
+    SECONDARY = "#A78BFA"
+    BACKGROUND = "#0F0F0F"
+    SURFACE = "#1A1A1A"
+    SURFACE_LIGHT = "#2D2D2D"
+    TEXT_PRIMARY = "#FFFFFF"
+    TEXT_SECONDARY = "#9CA3AF"
+    ACCENT = "#EC4899"
+    SUCCESS = "#10B981"
+    WARNING = "#F59E0B"
+    ERROR = "#EF4444"
+
     FONT_FAMILY = "Consolas"
     FONT_SIZE_SMALL = 9
     FONT_SIZE_NORMAL = 11
@@ -39,192 +32,64 @@ class CyberpunkStyle:
 
 
 class CyberpunkButton(tk.Button):
-    """Custom cyberpunk-styled button."""
-    
     def __init__(self, parent, text="", command=None, **kwargs):
-        # Set default font if not provided
-        if 'font' not in kwargs:
-            kwargs['font'] = (CyberpunkStyle.FONT_FAMILY, CyberpunkStyle.FONT_SIZE_NORMAL)
-        
-        # Set default bg if not provided
-        if 'bg' not in kwargs:
-            kwargs['bg'] = CyberpunkStyle.SURFACE
-        
-        # Set default fg if not provided
-        if 'fg' not in kwargs:
-            kwargs['fg'] = CyberpunkStyle.TEXT_PRIMARY
-        
-        # Set default activebackground if not provided
-        if 'activebackground' not in kwargs:
-            kwargs['activebackground'] = CyberpunkStyle.PRIMARY
-        
-        # Set default activeforeground if not provided
-        if 'activeforeground' not in kwargs:
-            kwargs['activeforeground'] = CyberpunkStyle.TEXT_PRIMARY
-        
-        # Set default relief if not provided
-        if 'relief' not in kwargs:
-            kwargs['relief'] = "flat"
-        
-        # Set default bd if not provided
-        if 'bd' not in kwargs:
-            kwargs['bd'] = 0
-        
-        # Set default padx if not provided
-        if 'padx' not in kwargs:
-            kwargs['padx'] = 10
-        
-        # Set default pady if not provided
-        if 'pady' not in kwargs:
-            kwargs['pady'] = 5
-        
-        # Set default cursor if not provided
-        if 'cursor' not in kwargs:
-            kwargs['cursor'] = "hand2"
-        
-        super().__init__(
-            parent,
-            text=text,
-            command=command,
-            **kwargs
-        )
-        
-        # Add hover effects
-        self.bind("<Enter>", self._on_enter)
-        self.bind("<Leave>", self._on_leave)
-    
-    def _on_enter(self, event):
-        self.config(bg=CyberpunkStyle.SURFACE_LIGHT)
-    
-    def _on_leave(self, event):
-        self.config(bg=CyberpunkStyle.SURFACE)
+        kwargs.setdefault("font", (CyberpunkStyle.FONT_FAMILY, CyberpunkStyle.FONT_SIZE_NORMAL))
+        kwargs.setdefault("bg", CyberpunkStyle.SURFACE)
+        kwargs.setdefault("fg", CyberpunkStyle.TEXT_PRIMARY)
+        kwargs.setdefault("activebackground", CyberpunkStyle.PRIMARY)
+        kwargs.setdefault("activeforeground", CyberpunkStyle.TEXT_PRIMARY)
+        kwargs.setdefault("relief", "flat")
+        kwargs.setdefault("bd", 0)
+        kwargs.setdefault("padx", 10)
+        kwargs.setdefault("pady", 5)
+        kwargs.setdefault("cursor", "hand2")
+
+        super().__init__(parent, text=text, command=command, **kwargs)
+        self.bind("<Enter>", lambda e: self.config(bg=CyberpunkStyle.SURFACE_LIGHT))
+        self.bind("<Leave>", lambda e: self.config(bg=CyberpunkStyle.SURFACE))
 
 
 class CyberpunkEntry(tk.Entry):
-    """Custom cyberpunk-styled entry."""
-    
     def __init__(self, parent, **kwargs):
-        # Set default font if not provided
-        if 'font' not in kwargs:
-            kwargs['font'] = (CyberpunkStyle.FONT_FAMILY, CyberpunkStyle.FONT_SIZE_NORMAL)
-        
-        # Set default bg if not provided
-        if 'bg' not in kwargs:
-            kwargs['bg'] = CyberpunkStyle.SURFACE
-        
-        # Set default fg if not provided
-        if 'fg' not in kwargs:
-            kwargs['fg'] = CyberpunkStyle.TEXT_PRIMARY
-        
-        # Set default insertbackground if not provided
-        if 'insertbackground' not in kwargs:
-            kwargs['insertbackground'] = CyberpunkStyle.PRIMARY
-        
-        # Set default relief if not provided
-        if 'relief' not in kwargs:
-            kwargs['relief'] = "flat"
-        
-        # Set default bd if not provided
-        if 'bd' not in kwargs:
-            kwargs['bd'] = 1
-        
-        # Set default highlightthickness if not provided
-        if 'highlightthickness' not in kwargs:
-            kwargs['highlightthickness'] = 1
-        
-        # Set default highlightcolor if not provided
-        if 'highlightcolor' not in kwargs:
-            kwargs['highlightcolor'] = CyberpunkStyle.PRIMARY
-        
-        # Set default highlightbackground if not provided
-        if 'highlightbackground' not in kwargs:
-            kwargs['highlightbackground'] = CyberpunkStyle.SURFACE_LIGHT
-        
-        super().__init__(
-            parent,
-            **kwargs
-        )
+        kwargs.setdefault("font", (CyberpunkStyle.FONT_FAMILY, CyberpunkStyle.FONT_SIZE_NORMAL))
+        kwargs.setdefault("bg", CyberpunkStyle.SURFACE)
+        kwargs.setdefault("fg", CyberpunkStyle.TEXT_PRIMARY)
+        kwargs.setdefault("insertbackground", CyberpunkStyle.PRIMARY)
+        kwargs.setdefault("relief", "flat")
+        kwargs.setdefault("bd", 1)
+        kwargs.setdefault("highlightthickness", 1)
+        kwargs.setdefault("highlightcolor", CyberpunkStyle.PRIMARY)
+        kwargs.setdefault("highlightbackground", CyberpunkStyle.SURFACE_LIGHT)
+        super().__init__(parent, **kwargs)
 
 
 class CyberpunkText(tk.Text):
-    """Custom cyberpunk-styled text widget."""
-    
     def __init__(self, parent, **kwargs):
-        # Set default font if not provided
-        if 'font' not in kwargs:
-            kwargs['font'] = (CyberpunkStyle.FONT_FAMILY, CyberpunkStyle.FONT_SIZE_NORMAL)
-        
-        # Set default bg if not provided
-        if 'bg' not in kwargs:
-            kwargs['bg'] = CyberpunkStyle.BACKGROUND
-        
-        # Set default fg if not provided
-        if 'fg' not in kwargs:
-            kwargs['fg'] = CyberpunkStyle.TEXT_PRIMARY
-        
-        # Set default insertbackground if not provided
-        if 'insertbackground' not in kwargs:
-            kwargs['insertbackground'] = CyberpunkStyle.PRIMARY
-        
-        # Set default relief if not provided
-        if 'relief' not in kwargs:
-            kwargs['relief'] = "flat"
-        
-        # Set default bd if not provided
-        if 'bd' not in kwargs:
-            kwargs['bd'] = 0
-        
-        # Set default highlightthickness if not provided
-        if 'highlightthickness' not in kwargs:
-            kwargs['highlightthickness'] = 0
-        
-        # Set default wrap if not provided
-        if 'wrap' not in kwargs:
-            kwargs['wrap'] = tk.WORD
-        
-        super().__init__(
-            parent,
-            **kwargs
-        )
+        kwargs.setdefault("font", (CyberpunkStyle.FONT_FAMILY, CyberpunkStyle.FONT_SIZE_NORMAL))
+        kwargs.setdefault("bg", CyberpunkStyle.BACKGROUND)
+        kwargs.setdefault("fg", CyberpunkStyle.TEXT_PRIMARY)
+        kwargs.setdefault("insertbackground", CyberpunkStyle.PRIMARY)
+        kwargs.setdefault("relief", "flat")
+        kwargs.setdefault("bd", 0)
+        kwargs.setdefault("highlightthickness", 0)
+        kwargs.setdefault("wrap", tk.WORD)
+        super().__init__(parent, **kwargs)
 
 
 class CyberpunkLabel(tk.Label):
-    """Custom cyberpunk-styled label."""
-    
     def __init__(self, parent, text="", **kwargs):
-        # Set default font if not provided
-        if 'font' not in kwargs:
-            kwargs['font'] = (CyberpunkStyle.FONT_FAMILY, CyberpunkStyle.FONT_SIZE_NORMAL)
-        
-        # Set default fg if not provided
-        if 'fg' not in kwargs:
-            kwargs['fg'] = CyberpunkStyle.TEXT_PRIMARY
-        
-        # Set default bg if not provided
-        if 'bg' not in kwargs:
-            kwargs['bg'] = CyberpunkStyle.BACKGROUND
-        
-        super().__init__(
-            parent,
-            text=text,
-            **kwargs
-        )
+        kwargs.setdefault("font", (CyberpunkStyle.FONT_FAMILY, CyberpunkStyle.FONT_SIZE_NORMAL))
+        kwargs.setdefault("fg", CyberpunkStyle.TEXT_PRIMARY)
+        kwargs.setdefault("bg", CyberpunkStyle.BACKGROUND)
+        super().__init__(parent, text=text, **kwargs)
 
 
 class CyberpunkFrame(tk.Frame):
-    """Custom cyberpunk-styled frame."""
-    
     def __init__(self, parent, **kwargs):
-        super().__init__(
-            parent,
-            bg=CyberpunkStyle.BACKGROUND,
-            **kwargs
-        )
+        super().__init__(parent, bg=CyberpunkStyle.BACKGROUND, **kwargs)
 
 
 class LobbyWindow:
-    """Lobby window for server connection."""
-    
     def __init__(self, on_connect: Callable):
         self.on_connect = on_connect
         self.window = None
@@ -232,35 +97,27 @@ class LobbyWindow:
         self.port_entry = None
         self.username_label = None
         self.connect_button = None
-    
+
     def show(self, username: str):
-        """Show the lobby window."""
         self.window = tk.Toplevel()
         self.window.title("LuckyOnes - Lobby")
         self.window.geometry("500x400")
         self.window.configure(bg=CyberpunkStyle.BACKGROUND)
         self.window.resizable(False, False)
-        
-        # Center window
         self.window.transient()
         self.window.grab_set()
-        
-        # Main frame
+
         main_frame = CyberpunkFrame(self.window)
         main_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
-        
-        # Title
-        title_label = CyberpunkLabel(
+
+        CyberpunkLabel(
             main_frame,
             text="LUCKY ONES",
             font=(CyberpunkStyle.FONT_FAMILY, CyberpunkStyle.FONT_SIZE_TITLE, "bold")
-        )
-        title_label.pack(pady=(0, 20))
-        
-        # Username display
+        ).pack(pady=(0, 20))
+
         username_frame = CyberpunkFrame(main_frame)
         username_frame.pack(fill=tk.X, pady=(0, 20))
-        
         CyberpunkLabel(username_frame, text="Username:").pack(anchor=tk.W)
         self.username_label = CyberpunkLabel(
             username_frame,
@@ -268,31 +125,25 @@ class LobbyWindow:
             fg=CyberpunkStyle.PRIMARY,
             font=(CyberpunkStyle.FONT_FAMILY, CyberpunkStyle.FONT_SIZE_LARGE, "bold")
         )
-        self.username_label.pack(anchor=tk.W)
-        
-        # Connection settings
+        self.username_label.pack(anchor=tk.W, fill="x")
+
         settings_frame = CyberpunkFrame(main_frame)
         settings_frame.pack(fill=tk.X, pady=(0, 20))
-        
-        # Host
+
         host_frame = CyberpunkFrame(settings_frame)
         host_frame.pack(fill=tk.X, pady=(0, 10))
-        
         CyberpunkLabel(host_frame, text="Server Host:").pack(anchor=tk.W)
         self.host_entry = CyberpunkEntry(host_frame)
         self.host_entry.pack(fill=tk.X, pady=(5, 0))
         self.host_entry.insert(0, "127.0.0.1")
-        
-        # Port
+
         port_frame = CyberpunkFrame(settings_frame)
         port_frame.pack(fill=tk.X, pady=(0, 10))
-        
         CyberpunkLabel(port_frame, text="Port:").pack(anchor=tk.W)
         self.port_entry = CyberpunkEntry(port_frame)
         self.port_entry.pack(fill=tk.X, pady=(5, 0))
         self.port_entry.insert(0, "6660")
-        
-        # Connect button
+
         self.connect_button = CyberpunkButton(
             main_frame,
             text="CONNECT",
@@ -300,42 +151,38 @@ class LobbyWindow:
             bg=CyberpunkStyle.PRIMARY,
             fg=CyberpunkStyle.TEXT_PRIMARY
         )
-        self.connect_button.pack(pady=(20, 0))
-        
-        # Status
+        self.connect_button.pack(pady=(20, 0), fill="x", padx=50)
+
         self.status_label = CyberpunkLabel(
             main_frame,
             text="Ready to connect",
             fg=CyberpunkStyle.TEXT_SECONDARY
         )
-        self.status_label.pack(pady=(10, 0))
-    
+        self.status_label.pack(pady=(10, 0), fill="x")
+
     def _on_connect(self):
-        """Handle connect button click."""
         host = self.host_entry.get().strip()
         port_str = self.port_entry.get().strip()
-        
         if not host:
             messagebox.showerror("Error", "Please enter a server host")
             return
-        
         try:
             port = int(port_str)
         except ValueError:
             messagebox.showerror("Error", "Please enter a valid port number")
             return
-        
         self.connect_button.config(state=tk.DISABLED, text="CONNECTING...")
         self.status_label.config(text="Connecting...", fg=CyberpunkStyle.WARNING)
-        
-        # Call connect callback
         success = self.on_connect(host, port)
-        
         if success:
             self.window.destroy()
         else:
             self.connect_button.config(state=tk.NORMAL, text="CONNECT")
             self.status_label.config(text="Connection failed", fg=CyberpunkStyle.ERROR)
+
+
+# ChatWindow-luokka pysyy samana, voit liittää sen jatkoksi.
+
 
 
 class ChatWindow:
